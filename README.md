@@ -1,16 +1,16 @@
 # CINEX
 
-###Requirements
+### Requirements
 * Java Runtime Environment (JRE) 1.7.x or higher
 
-#####Text processing tools:
+##### Text processing tools:
 * [Stanford CoreNLP 3.7.x](http://stanfordnlp.github.io/CoreNLP/) or higher -- a suite of core NLP tools. The .jar file should be included in the classpath.
 
-#####Other libraries:
+##### Other libraries:
 * [JSON-java](https://mvnrepository.com/artifact/org.json/json) - JSON for Java
 * [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/) - an API for parsing command line options passed to programs.
 
-###Preprocessing
+### Preprocessing
 _! The input file (per property/relation) must be in the comma-separated values (CSV) format: `WikidataID,tripleCount` (per line) !_
 ```
 usage: Preprocessing
@@ -55,14 +55,14 @@ Preprocessing -i data/example/wikidata_sample.csv -p sample -f -r data/example/w
 ```
 will generate `data/example/sample_train_cardinality.data` and `data/example/sample_test_cardinality.data`. 
 
-###Train and Predict (with) CRF++
+### Train and Predict (with) CRF++
 How to train and predict (with) a CRF model? See an example at `data/example/CRF/sample_cardinality_lemma.sh`. 
 
 _! Don't forget to download and install [CRF++](https://taku910.github.io/crfpp/), and set the `$CRFPATH`. _!
 
 The sample output of predicting with a CRF model can be seen in `data/example/sample_cardinality_lemma.out`.
 
-###Evaluation
+### Evaluation
 _! The input file (per property/relation) must be in the comma-separated values (CSV) format: `WikidataID,WikipediaTitle,tripleCount` (per line). The CRF++ output file is according to the explanation above. !_
 ```
 usage: Evaluation
