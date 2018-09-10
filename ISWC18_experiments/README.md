@@ -1,5 +1,6 @@
 Experiments on five relations
 
+```
 #!/bin/bash
 
 sh iswc_experiment_crf_per_relation.sh P527_Q7725310 1.0 0.1
@@ -10,3 +11,4 @@ sh iswc_experiment_crf_per_relation.sh P26 0.5 0.1
 
 sh iswc_experiment_crf_per_relation_negation.sh P40 0.5 0.1
 sh iswc_experiment_crf_per_relation_negation.sh P26 0.5 0.1
+```
