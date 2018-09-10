@@ -12,6 +12,7 @@ import org.apache.commons.cli.ParseException;
 
 import de.mpg.mpiinf.cardinality.autoextraction.DistributionExtractionConcurrent;
 import de.mpg.mpiinf.cardinality.autoextraction.FeatureExtractionConcurrent;
+import de.mpg.mpiinf.cardinality.autoextraction.ReadFromFile;
 import de.mpg.mpiinf.cardinality.autoextraction.WikipediaArticle;
 
 public class Preprocessing {
@@ -29,7 +30,7 @@ public class Preprocessing {
             
 		} catch (ParseException e) {
 			System.err.println(e.getMessage());
-			formatter.printHelp("RelationCardinalityExtraction: Preprocessing", options);
+			formatter.printHelp("CINEX: Preprocessing", options);
 
 			System.exit(1);
 			return;
@@ -130,8 +131,17 @@ public class Preprocessing {
 			float threshold = (float)0;
 			if (cmd.hasOption("t")) threshold = Float.parseFloat(cmd.getOptionValue("threshold"));
 			
+			int numTrain = ReadFromFile.countLines(inputCsvFile);
 			float topPopular = (float)1;
-			if (cmd.hasOption("k")) topPopular = Float.parseFloat(cmd.getOptionValue("popular"));
+			int topNPopular = numTrain;
+			if (cmd.hasOption("popular")) {
+				topPopular = Float.parseFloat(cmd.getOptionValue("popular"));
+				topNPopular = Math.round(topPopular * numTrain);
+			}
+			if (cmd.hasOption("npopular")) {
+				topNPopular = Integer.parseInt(cmd.getOptionValue("npopular"));
+			}
+			
 			
 			int quarterPart = 0;
 			if (cmd.hasOption("q")) quarterPart = Integer.parseInt(cmd.getOptionValue("quarter"));
@@ -143,7 +153,7 @@ public class Preprocessing {
 			boolean negTrain = false;
 			
 			featExtraction.run(wiki, ignoreHigher, ignoreHigherLess, 
-					threshold, ignoreFreq, topPopular, quarterPart,
+					threshold, ignoreFreq, topNPopular, quarterPart,
 					nummod, ordinals, numterms,
 					articles, quantifiers, pronouns,
 					compositional, 
@@ -247,6 +257,10 @@ public class Preprocessing {
 		Option topPopular = new Option("k", "popular", true, "Cutoff percentage of popular instances as training examples");
 		topPopular.setRequired(false);
 		options.addOption(topPopular);
+		
+		Option topNPopular = new Option("npopular", "npopular", true, "Cutoff number of popular instances as training examples");
+		topNPopular.setRequired(false);
+		options.addOption(topNPopular);
 		
 		Option quarterPart = new Option("q", "quarter", true, "Quarter part of popular instances as training examples");
 		quarterPart.setRequired(false);

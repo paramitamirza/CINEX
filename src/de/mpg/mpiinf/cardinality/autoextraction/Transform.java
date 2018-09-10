@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -26,21 +27,33 @@ import edu.stanford.nlp.util.StringUtils;
 
 public class Transform {
 	
-	private String numberRelatedTermsPath = "./data/number_related_terms.tsv";
-	private String prefixLatinGreekPath = "./data/prefix_latin_greek.tsv";
-	private String postPrefixLatinGreekPath = "./data/post_prefix_latin_greek.tsv";
+	private String numberRelatedTermsPath;
+	private String prefixLatinGreekPath;
+	private String postPrefixLatinGreekPath;
 	
 	public Map<String, Integer> prefixLatinGreek;
 	private List<String> postPrefixLetinGreek;
 	
 	public Transform() throws IOException {
 		
+		numberRelatedTermsPath = "resources/number_related_terms.tsv";
+		prefixLatinGreekPath = "resources/prefix_latin_greek.tsv";
+		postPrefixLatinGreekPath = "resources/post_prefix_latin_greek.tsv";
+		
+//		numberRelatedTermsStream = Transform.class.getClassLoader().getResourceAsStream("resources/number_related_terms.tsv");
+//		prefixLatinGreekStream = Transform.class.getClassLoader().getResourceAsStream("resources/prefix_latin_greek.tsv");
+//		postPrefixLatinGreekStream = Transform.class.getClassLoader().getResourceAsStream("resources/post_prefix_latin_greek.tsv");
+		
 		prefixLatinGreek = new HashMap<String, Integer>();
 		postPrefixLetinGreek = new ArrayList<String>();
 		
 		String line;
 		
-		BufferedReader br = new BufferedReader(new FileReader(prefixLatinGreekPath));
+//		BufferedReader br = new BufferedReader(new FileReader(prefixLatinGreekPath));
+		
+		InputStream prefixLatinGreekStream = Transform.class.getClassLoader().getResourceAsStream("prefix_latin_greek.tsv");
+		BufferedReader br = new BufferedReader(new InputStreamReader(prefixLatinGreekStream));
+		
 		line = br.readLine();
 		while(line != null) {
 			prefixLatinGreek.put(line.split("\t")[0], Integer.parseInt(line.split("\t")[1]));
@@ -48,7 +61,11 @@ public class Transform {
 		}
 		br.close();
 		
-		br = new BufferedReader(new FileReader(postPrefixLatinGreekPath));
+//		br = new BufferedReader(new FileReader(postPrefixLatinGreekPath));
+		
+		InputStream postPrefixLatinGreekStream = Transform.class.getClassLoader().getResourceAsStream("post_prefix_latin_greek.tsv");
+		br = new BufferedReader(new InputStreamReader(postPrefixLatinGreekStream));
+		
 		line = br.readLine();
 		while(line != null) {
 			postPrefixLetinGreek.add(line);
@@ -249,7 +266,11 @@ public class Transform {
 //		System.out.println(sentence);
 		
 		if (otherConcepts) {
-			BufferedReader br = new BufferedReader(new FileReader(numberRelatedTermsPath));
+//			BufferedReader br = new BufferedReader(new FileReader(numberRelatedTermsPath));
+			
+			InputStream numberRelatedTermsStream = Transform.class.getClassLoader().getResourceAsStream("number_related_terms.tsv");
+			BufferedReader br = new BufferedReader(new InputStreamReader(numberRelatedTermsStream));
+			
 			line = br.readLine();
 			while (line != null) {
 				term = line.split("\t")[0];
@@ -300,7 +321,11 @@ public class Transform {
 	public String transformOthers(String sentence) throws IOException {
 		String line, transformed = sentence, term;
 		
-		BufferedReader br = new BufferedReader(new FileReader(numberRelatedTermsPath));
+//		BufferedReader br = new BufferedReader(new FileReader(numberRelatedTermsPath));
+		
+		InputStream numberRelatedTermsStream = Transform.class.getClassLoader().getResourceAsStream("number_related_terms.tsv");
+		BufferedReader br = new BufferedReader(new InputStreamReader(numberRelatedTermsStream));
+		
 		line = br.readLine();
 		while (line != null) {
 			term = line.split("\t")[0];

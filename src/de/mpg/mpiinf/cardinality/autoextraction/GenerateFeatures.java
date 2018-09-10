@@ -347,8 +347,8 @@ public class GenerateFeatures implements Runnable {
 			label = decideOnLabelHigher(numOfTriples, numInt, ignoreHigherLess, maxTripleCount);
 
 		} else {	//numInt < numOfTriples
-//			label = "_NO_";
-			label = "_YES_";
+			label = "_NO_";
+//			label = "_YES_";
 		}
 		
 		return label;

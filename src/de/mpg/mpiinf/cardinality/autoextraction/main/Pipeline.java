@@ -37,7 +37,7 @@ public class Pipeline {
 		// -r ./data/example/acl_performance.txt
 		
 		long startTime = System.currentTimeMillis();
-		System.out.println("Start the Relation Cardinality Extraction pipeline... ");
+		System.out.println("Start the Counting Information Extraction pipeline... ");
 		
 		Options options = getPreprocessingOptions();
 
@@ -50,7 +50,7 @@ public class Pipeline {
             
 		} catch (ParseException e) {
 			System.err.println(e.getMessage());
-			formatter.printHelp("RelationCardinalityExtraction: Pipeline", options);
+			formatter.printHelp("CINEX: Pipeline", options);
 
 			System.exit(1);
 			return;
@@ -99,8 +99,16 @@ public class Pipeline {
 		float threshold = (float)0;
 		if (cmd.hasOption("t")) threshold = Float.parseFloat(cmd.getOptionValue("threshold"));
 		
+		int numTrain = ReadFromFile.countLines(inputCsvFile);
 		float topPopular = (float)1;
-		if (cmd.hasOption("k")) topPopular = Float.parseFloat(cmd.getOptionValue("popular"));
+		int topNPopular = numTrain;
+		if (cmd.hasOption("popular")) {
+			topPopular = Float.parseFloat(cmd.getOptionValue("popular"));
+			topNPopular = Math.round(topPopular * numTrain);
+		}
+		if (cmd.hasOption("npopular")) {
+			topNPopular = Integer.parseInt(cmd.getOptionValue("npopular"));
+		}
 		
 		int quarterPart = 0;
 		if (cmd.hasOption("q")) quarterPart = Integer.parseInt(cmd.getOptionValue("quarter"));
@@ -112,7 +120,7 @@ public class Pipeline {
 		boolean negTrain = false;
 		
 		featExtraction.run(wiki, ignoreHigher, ignoreHigherLess, 
-				threshold, ignoreFreq, topPopular, quarterPart,
+				threshold, ignoreFreq, topNPopular, quarterPart,
 				nummod, ordinals, numterms,
 				articles, quantifiers, pronouns,
 				compositional, 
@@ -134,7 +142,7 @@ public class Pipeline {
 			evalData = trainData;						//evaluation data = training data
 		}
 		
-		Classifier cl = new Classifier(relName, dirCRF, dirModels, templateFile);
+		Classifier cl = new Classifier(relName, dirCRF, dirModels, new File(templateFile));
 		if (cmd.hasOption("n")) Classifier.setNumberOfThreads(Integer.parseInt(cmd.getOptionValue("thread")));
 		cl.trainModel(trainData);						//train model
 		cl.testModel(evalData);							//test model
@@ -293,6 +301,10 @@ public class Pipeline {
 		Option topPopular = new Option("k", "popular", true, "Cutoff percentage of popular instances as training examples");
 		topPopular.setRequired(false);
 		options.addOption(topPopular);
+		
+		Option topNPopular = new Option("npopular", "npopular", true, "Cutoff number of popular instances as training examples");
+		topNPopular.setRequired(false);
+		options.addOption(topNPopular);
 		
 		Option quarterPart = new Option("q", "quarter", true, "Quarter part of popular instances as training examples");
 		quarterPart.setRequired(false);

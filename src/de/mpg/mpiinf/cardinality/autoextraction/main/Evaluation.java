@@ -51,7 +51,7 @@ public class Evaluation {
             
 		} catch (ParseException e) {
 			System.err.println(e.getMessage());
-			formatter.printHelp("RelationCardinalityExtraction: Evaluation", options);
+			formatter.printHelp("CINEX: Evaluation", options);
 			
 			System.exit(1);
 			return;

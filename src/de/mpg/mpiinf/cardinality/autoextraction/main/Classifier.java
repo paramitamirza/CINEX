@@ -3,10 +3,15 @@ package de.mpg.mpiinf.cardinality.autoextraction.main;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -22,7 +27,7 @@ public class Classifier {
 	
 	private String crfDir;
 	private String modelDir;
-	private String templateFile;
+	private File templateFile;
 	private String relName;
 	
 	private static int NTHREADS = 4;
@@ -31,12 +36,29 @@ public class Classifier {
 		NTHREADS = n;
 	}
 
-	public Classifier(String relName, String crfDir, String modelDir, String templateFile) {
+	public Classifier(String relName, String crfDir, String modelDir, File templateFile) {
 		this.setRelName(relName);
 		this.setCrfDir(crfDir);
 		this.setModelDir(modelDir);
 		this.ensureDirectory(new File(this.getModelDir()));
 		this.setTemplateFile(templateFile);
+	}
+	
+	public Classifier(String relName, String crfDir, String modelDir) throws IOException {
+		this.setRelName(relName);
+		this.setCrfDir(crfDir);
+		this.setModelDir(modelDir);
+		this.ensureDirectory(new File(this.getModelDir()));
+		
+		InputStream templateStream = Classifier.class.getClassLoader().getResourceAsStream("template_lemma_dep.txt");
+		byte[] buffer = new byte[templateStream.available()];
+		templateStream.read(buffer);
+		
+		File templateOutFile = new File("template_lemma_dep.txt");
+	    OutputStream outStream = new FileOutputStream(templateOutFile);
+	    outStream.write(buffer);
+		
+		this.setTemplateFile(templateOutFile);
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -52,7 +74,7 @@ public class Classifier {
             
 		} catch (ParseException e) {
 			System.err.println(e.getMessage());
-			formatter.printHelp("RelationCardinalityExtraction: Classifier", options);
+			formatter.printHelp("CINEX: Classifier", options);
 
 			System.exit(1);
 			return;
@@ -64,19 +86,30 @@ public class Classifier {
 		}
 		String relName = cmd.getOptionValue("relname");
 		String dirCRF = cmd.getOptionValue("crf");
-		String templateFile = cmd.getOptionValue("template");
 		
-		Classifier cl = new Classifier(relName, dirCRF, dirModels, templateFile);
-		if (cmd.hasOption("n")) Classifier.setNumberOfThreads(Integer.parseInt(cmd.getOptionValue("thread")));
-		String trainFile = cmd.getOptionValue("train");
-		String evalFile = trainFile;
-		if (cmd.hasOption("e")) evalFile = cmd.getOptionValue("eval");
+//		String templateFile = cmd.getOptionValue("template");
 		
-		//Train model
-		cl.trainModel(trainFile);
+//		Classifier cl = new Classifier(relName, dirCRF, dirModels, templateFile);
+		Classifier cl;
+		try {
+			cl = new Classifier(relName, dirCRF, dirModels);
+			
+			if (cmd.hasOption("n")) Classifier.setNumberOfThreads(Integer.parseInt(cmd.getOptionValue("thread")));
+			String trainFile = cmd.getOptionValue("train");
+			String evalFile = trainFile;
+			if (cmd.hasOption("e")) evalFile = cmd.getOptionValue("eval");
+			
+			//Train model
+			cl.trainModel(trainFile);
+			
+			//Test model
+			cl.testModel(evalFile);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		//Test model
-		cl.testModel(evalFile);
 		
 	}
 	
@@ -89,8 +122,9 @@ public class Classifier {
 		if (OSValidator.isWindows()) crfLearn = "crf_learn.exe";
 		
 		try {
+			System.out.println(this.getTemplateFile());
 	    	ProcessBuilder builder = new ProcessBuilder(this.getCrfDir() + "/" + crfLearn, 
-	    			"-p", NTHREADS+"", this.getTemplateFile(), 
+	    			"-p", NTHREADS+"", this.getTemplateFile().getAbsolutePath(), 
 	    			trainFile, this.getModelDir() + "/" + this.getRelName() + ".model");
 	        Process process = builder.start();
 	        
@@ -105,6 +139,8 @@ public class Classifier {
             
             inputStream.close();
             bufferedReader.close();
+            
+            this.getTemplateFile().delete();
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -181,9 +217,9 @@ public class Classifier {
 		eval.setRequired(true);
 		options.addOption(eval);
 		
-		Option template = new Option("l", "template", true, "CRF++ template file");
-		template.setRequired(true);
-		options.addOption(template);
+//		Option template = new Option("l", "template", true, "CRF++ template file");
+//		template.setRequired(true);
+//		options.addOption(template);
 		
 		Option models = new Option("m", "models", true, "Output directory of CRF++ model files");
 		models.setRequired(false);
@@ -212,12 +248,12 @@ public class Classifier {
 		this.modelDir = modelDir;
 	}
 
-	public String getTemplateFile() {
+	public File getTemplateFile() {
 		return templateFile;
 	}
 
-	public void setTemplateFile(String templateFile) {
-		this.templateFile = templateFile;
+	public void setTemplateFile(File templateOutFile) {
+		this.templateFile = templateOutFile;
 	}
 
 	public String getRelName() {

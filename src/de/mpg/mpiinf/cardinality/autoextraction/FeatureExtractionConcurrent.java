@@ -85,8 +85,9 @@ public class FeatureExtractionConcurrent {
 			featExtraction = new FeatureExtractionConcurrent(args[0], args[1], args[2], args[3]);
 		}
 		
+		int numTrain = ReadFromFile.countLines(args[0]);
 		WikipediaArticle wiki = new WikipediaArticle();
-		featExtraction.run(wiki, false, -99, 0, 0, (float) 1.0, 0,
+		featExtraction.run(wiki, false, -99, 0, 0, numTrain, 0,
 				true, false, false, 
 				false, false, false, 
 				false,
@@ -94,7 +95,7 @@ public class FeatureExtractionConcurrent {
 	}
 	
 	public void run(WikipediaArticle wiki, boolean ignoreHigher, int ignoreHigherLess,
-			float infThreshold, int ignoreFreq, float topPopular, int quarterPart,			
+			float infThreshold, int ignoreFreq, int topNPopular, int quarterPart,			
 			boolean nummod, boolean ordinal, boolean numterms,
 			boolean articles, boolean quantifiers, boolean pronouns,
 			boolean compositional, 
@@ -135,13 +136,11 @@ public class FeatureExtractionConcurrent {
 		
 		Collections.sort(tripleCounts);
 		maxCount = tripleCounts.get(tripleCounts.size()*99/100);
-		System.out.println("99%%tile = " + maxCount);
+//		System.out.println("99%%tile = " + maxCount);
 		
 		BufferedReader br = new BufferedReader(new FileReader(getInputCsvFile()));
 		
-		int numTrain = ReadFromFile.countLines(this.getInputCsvFile());
-		int maxNumTrain = Math.round(topPopular * numTrain);
-//		int maxNumTrain = Math.round(topPopular * 4);
+		int maxNumTrain = topNPopular;
 		
 		Set<String> topPopularIds = new HashSet<String>();
 		line = br.readLine();
