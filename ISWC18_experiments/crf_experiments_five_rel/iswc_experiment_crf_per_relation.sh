@@ -6,6 +6,8 @@ prob=$3
 
 mkdir ./crf_five_rel_feature_data/
 mkdir ./crf_models/
+mkdir ./crf_five_rel_out/
+mkdir ./crf_five_rel_predicted/
 
 #Prepare training data
 java -Xms2g -Xmx8g -jar ../CINEX/CINEXPreprocessing.jar -i ./entity_list_five_rel/train/train_"${name}".csv -e ./entity_list_five_rel/combtest/test_"${name}".csv -p "${name}" -w /GW/D5data-8/counting_quantifier/enwiki_20170320_pages_articles/ -f -d -h 0 -g 0 -t 2.7 --popular "${cutoff}" --npopular 10000 --compositional --numterms --ordinals -o ./crf_five_rel_feature_data/ -n 100
@@ -14,7 +16,7 @@ java -Xms2g -Xmx8g -jar ../CINEX/CINEXPreprocessing.jar -i ./entity_list_five_re
 java -Xms2g -Xmx8g -jar ../CINEX/CINEXPreprocessing.jar -i ./entity_list_five_rel/eval/val_random_"${name}".csv -e ./entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_eval -w /GW/D5data-8/counting_quantifier/enwiki_20170320_pages_articles/ -f -d --numterms --articles --ordinals -o ./crf_five_rel_feature_data/ -n 100
 
 #Label with CRF
-java -Xms2g -Xmx8g -jar ../CINEX/CINEXClassifier.jar -c /GW/D5data-8/counting_quantifier/tools/CRF++-0.58/ -p "${name}" -t ./crf_five_rel_feature_data/"${name}"_train_cardinality.data -e ./crf_five_rel_feature_data/"${name}"_eval_test_cardinality.data -m ./crf_five_rel_models/ -n 100
+java -Xms2g -Xmx8g -jar ../CINEX/CINEXClassifier.jar -c /GW/D5data-8/counting_quantifier/tools/CRF++-0.58/ -p "${name}" -t ./crf_five_rel_feature_data/"${name}"_train_cardinality.data -e ./crf_five_rel_feature_data/"${name}"_eval_test_cardinality.data -m /var/tmp/paramita/models/ -n 100
 
 mv ./crf_five_rel_feature_data/"${name}"_cardinality.out ./crf_five_rel_out/
 
