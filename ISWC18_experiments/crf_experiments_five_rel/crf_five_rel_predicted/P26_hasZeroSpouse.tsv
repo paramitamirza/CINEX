@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q451330	https://en.wikipedia.org/wiki?curid=467111	Ivan Matveevich Vinogradov	0	0	0.194486	cardinal	He was married [0] time and was very attached to his dacha in Abramtsevo , where he spent all his weekends and vacations -LRB- together with his sister Nadezhda , also unmarried -RRB- enjoying flower gardening .
 Q57074	https://en.wikipedia.org/wiki?curid=335262	Nelly Sachs	0	0	0.125651	cardinal	She grew up as a very sheltered , introverted young woman and married [0] time .
 Q235343	https://en.wikipedia.org/wiki?curid=10430	Genshō	0	0	0.32658	cardinal	She married [0] time and had no children .

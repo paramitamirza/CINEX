@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q405005	https://en.wikipedia.org/wiki?curid=2090269	Getafe, Bohol	24	24	0.971672	cardinal	Getafe comprises [24] barangays :
 Q7982938	https://en.wikipedia.org/wiki?curid=37672145	Wenquan, Jiaozuo	29	29	0.925984	cardinal	, it has [29] villages under its administration .
 Q5210069	https://en.wikipedia.org/wiki?curid=35852197	Dakoutun	58	58	0.925984	cardinal	, it had [58] villages under its administration .

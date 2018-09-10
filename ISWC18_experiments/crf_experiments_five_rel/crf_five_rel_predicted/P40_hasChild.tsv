@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q1043	https://en.wikipedia.org/wiki?curid=5233	Carl Linnaeus	7	1	0.213935	cardinal	Ten days after he was appointed Professor , he undertook [an] expedition to the island provinces of Öland and Gotland with six students from the university , to look for plants useful in medicine .
 Q3852035	https://en.wikipedia.org/wiki?curid=1116257	Phương_Mai	2	2	0.321445	cardinal	On 5 August 1971 , in Paris , France , Princess Phương Mai married Pietro Badoglio , 2nd Duke of Addis Abeba and Marquess of Sabotino ; they had two children , [a] son and [a] daughter :
 Q3358782	https://en.wikipedia.org/wiki?curid=1331488	Barbro_Holmberg	3	2	0.523306	numterm	Her marriage to radio journalist Thomas Nordegren produced three children : one son , Axel and [twins] Elin and Josefin .

@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q7776231	https://en.wikipedia.org/wiki?curid=19799478	The Worthing series	4	4	0.268191	cardinal	It consists of [two] anthologies and [two] novels .
 Q3822522	https://en.wikipedia.org/wiki?curid=5936963	The Genesis of Shannara	3	2	0.142576	cardinal	These novels bridge the `` Word & Void series '' with the `` Legends of Shannara '' series , [two] other of Brooks ' productions .
 Q5755341	https://en.wikipedia.org/wiki?curid=2520466	High Druid of Shannara	3	3	0.717856	numterm	The first novel in the `` High Druid '' [trilogy] chronicles the banishment of Grianne Ohmsford , the High Druid , to the dark world of the Forbidding by Shadea a ` Ru through the employment of a magic known as `` liquid night '' .

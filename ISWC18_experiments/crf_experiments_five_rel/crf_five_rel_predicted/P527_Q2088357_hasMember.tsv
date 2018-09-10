@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q1850284	https://en.wikipedia.org/wiki?curid=6127709	The Puppini Sisters	3	3	0.54554	numterm	The [trio] started a Pledge Music campaign to crowd fund their new album -LRB- along with an optional bonus edition of remixes -RRB- with the help of fans .
 Q7771334	https://en.wikipedia.org/wiki?curid=14517347	The Uncontrollable	2	2	0.247672	numterm	The Uncontrollable is an acoustic [duo] made up of Nick Oliveri of Queens of the Stone Age and Blag Dahlia of The Dwarves .
 Q541380	https://en.wikipedia.org/wiki?curid=2448733	The Humblebums	3	3	0.366138	numterm	Rafferty joined later and for a short time they performed as a [trio] .

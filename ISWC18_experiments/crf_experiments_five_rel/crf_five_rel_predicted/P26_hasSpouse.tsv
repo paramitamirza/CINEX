@@ -1,3 +1,4 @@
+Wikidata ID	Wikipedia URL	Entity label	Object count	Predicted count	CRF prob	Mention type	Text evidence
 Q202735	https://en.wikipedia.org/wiki?curid=4471	Billy%20Bob%20Thornton	6	6	0.125242	cardinal	Thornton has married [six] times , with the first five marriages ending in divorce , and he has five children by three women .
 Q2545982	https://en.wikipedia.org/wiki?curid=6418127	Vladimir%20Etush	4	4	0.240715	cardinal	Etush has been married [four] times .
 Q3097958	https://en.wikipedia.org/wiki?curid=476159	Janet%20Lee%20Bouvier	3	3	0.132106	ordinal	Her second husband in 1942 was Hugh Dudley Auchincloss , Jr. , an attorney and Standard Oil heir ; she was his [third] wife .
