@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cardinality.autoextraction.main;
+package de.mpg.mpiinf.cinex.autoextraction.main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +21,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.mpg.mpiinf.cardinality.autoextraction.OSValidator;
+import de.mpg.mpiinf.cinex.autoextraction.OSValidator;
 
 public class Classifier {
 	

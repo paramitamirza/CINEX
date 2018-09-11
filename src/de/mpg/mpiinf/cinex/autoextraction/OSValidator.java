@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cardinality.autoextraction;
+package de.mpg.mpiinf.cinex.autoextraction;
 
 public class OSValidator {
 

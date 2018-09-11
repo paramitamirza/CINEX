@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cardinality.autoextraction.main;
+package de.mpg.mpiinf.cinex.autoextraction.main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,8 +31,8 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.apache.commons.math3.stat.descriptive.SummaryStatistics;
 
-import de.mpg.mpiinf.cardinality.autoextraction.Numbers;
-import de.mpg.mpiinf.cardinality.autoextraction.WikidataLabel;
+import de.mpg.mpiinf.cinex.autoextraction.Numbers;
+import de.mpg.mpiinf.cinex.autoextraction.WikidataLabel;
 import edu.stanford.nlp.util.Pair;
 import edu.stanford.nlp.util.StringUtils;
 

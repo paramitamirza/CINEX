@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cardinality.autoextraction;
+package de.mpg.mpiinf.cinex.autoextraction;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;

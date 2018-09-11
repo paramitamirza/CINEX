@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cardinality.autoextraction.main;
+package de.mpg.mpiinf.cinex.autoextraction.main;
 
 import java.io.File;
 
@@ -10,10 +10,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.mpg.mpiinf.cardinality.autoextraction.DistributionExtractionConcurrent;
-import de.mpg.mpiinf.cardinality.autoextraction.FeatureExtractionConcurrent;
-import de.mpg.mpiinf.cardinality.autoextraction.ReadFromFile;
-import de.mpg.mpiinf.cardinality.autoextraction.WikipediaArticle;
+import de.mpg.mpiinf.cinex.autoextraction.DistributionExtractionConcurrent;
+import de.mpg.mpiinf.cinex.autoextraction.FeatureExtractionConcurrent;
+import de.mpg.mpiinf.cinex.autoextraction.ReadFromFile;
+import de.mpg.mpiinf.cinex.autoextraction.WikipediaArticle;
 
 public class Preprocessing {
 	
