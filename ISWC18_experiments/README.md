@@ -10,7 +10,7 @@ ant -f CINEXEvaluation.xml
 ### Experiments on five relations
 
 #### CRF
-Please check the [`crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh`](crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh) bash script:
+Please check the [`crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh`](crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh) bash script (which calls [`crf_experiments_five_rel/iswc_experiment_crf_per_relation.sh`](crf_experiments_five_rel/iswc_experiment_crf_per_relation.sh) and [`crf_experiments_five_rel/iswc_experiment_crf_per_relation_negation.sh`](crf_experiments_five_rel/iswc_experiment_crf_per_relation_negation.sh)--for **zero counting quantifiers**):
 ```
 #!/bin/bash
 
@@ -34,8 +34,8 @@ The predicted counting quantifiers for each relation are available in [`crf_expe
 
 ### Experiments on ~2.5K Wikidata relations
 
-* Please check the [`experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh`](experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh) bash script to prepare the feature data for all entities in a given class ([`experiments_wikidata_rel/iswc_prepare_feature_per_class.sh`](experiments_wikidata_rel/iswc_prepare_feature_per_class.sh))
-* Please check the [`experiments_wikidata_rel/iswc_experiment_all_classes.sh`](experiments_wikidata_rel/iswc_experiment_all_classes.sh) bash script to run the experiments for all relations related to a given class ([`experiments_wikidata_rel/iswc_experiment_per_class.sh`](experiments_wikidata_rel/iswc_experiment_per_class.sh))
+* Please check the [`experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh`](experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh) bash script to prepare the feature data for all entities in a given class (which calls [`experiments_wikidata_rel/iswc_prepare_feature_per_class.sh`](experiments_wikidata_rel/iswc_prepare_feature_per_class.sh))
+* Please check the [`experiments_wikidata_rel/iswc_experiment_all_classes.sh`](experiments_wikidata_rel/iswc_experiment_all_classes.sh) bash script to run the experiments for all relations related to a given class (which calls [`experiments_wikidata_rel/iswc_experiment_per_class.sh`](experiments_wikidata_rel/iswc_experiment_per_class.sh))
 
 The predicted counting quantifiers for each relation are available in [`experiments_wikidata_rel/all_rel_predicted/`](experiments_wikidata_rel/all_rel_predicted/), in the format of tab-separated values (.tsv), as for the previous five relations.
 
