@@ -1,5 +1,7 @@
 #!/bin/bash
 
+tar -xvzf ./entity_list_all_rel/classes_all.tar.gz
+
 bash iswc_prepare_feature_per_class.sh Q310899
 bash iswc_prepare_feature_per_class.sh Q648329
 bash iswc_prepare_feature_per_class.sh Q927885

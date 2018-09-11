@@ -4,5 +4,9 @@ import sys
 
 response1 = urllib2.urlopen("https://www.wikidata.org/w/api.php?action=wbgetentities&props=labels&ids=" + sys.argv[1] + "&languages=en&format=json")
 data1 = json.load(response1) 
-if "entities" in data1: label1 = data1["entities"][sys.argv[1]]["labels"]["en"]["value"]
+
+label1 = sys.argv[1]
+if "entities" in data1: 
+	if "labels" in data1["entities"][sys.argv[1]]:
+		label1 = data1["entities"][sys.argv[1]]["labels"]["en"]["value"]
 print unicode(label1.replace(' ', '_')).encode('utf8')
