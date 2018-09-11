@@ -39,7 +39,7 @@ The predicted counting quantifiers for each relation are available in [`crf_expe
 
 The predicted counting quantifiers for each relation are available in [`experiments_wikidata_rel/all_rel_predicted/`](experiments_wikidata_rel/all_rel_predicted/), in the format of tab-separated values (.tsv), as for the previous five relations.
 
-#### Publication
+### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
 
 _! Whenever making reference to this resource please cite the paper in the Publication section. !_
