@@ -99,8 +99,10 @@ public class Classifier {
 			String evalFile = trainFile;
 			if (cmd.hasOption("e")) evalFile = cmd.getOptionValue("eval");
 			
-			//Train model
-			cl.trainModel(trainFile);
+			if (cmd.hasOption("t")) {
+				//Train model
+				cl.trainModel(trainFile);
+			}
 			
 			//Test model
 			cl.testModel(evalFile);
@@ -181,6 +183,8 @@ public class Classifier {
             
             inputStream.close();
             bufferedReader.close();
+            
+            this.getTemplateFile().delete();
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -210,7 +214,7 @@ public class Classifier {
 		options.addOption(relName);
 		
 		Option train = new Option("t", "train", true, "Input train feature file (.data) path");
-		train.setRequired(true);
+		train.setRequired(false);
 		options.addOption(train);
 		
 		Option eval = new Option("e", "eval", true, "Input evaluation feature file (.data) path");
