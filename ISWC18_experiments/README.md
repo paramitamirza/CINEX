@@ -1,7 +1,7 @@
 ### Experiments on five relations
 
 #### CRF
-Please check the `crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh` bash script:
+Please check the [`crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh`](crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh) bash script:
 ```
 #!/bin/bash
 
