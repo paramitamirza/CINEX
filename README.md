@@ -19,7 +19,7 @@ We employ distant supervision using fact counts from a knowledge base as trainin
 
 ### ISWC 2018 Experiments
 
-Please check [`ISWC18_experiments/`](ISWC18_experiments/) for more information about data used, experimental details and results.
+Please check [`ISWC18_experiments/`](ISWC18_experiments/), as well as the following publication, for more information about data used, experimental details and results.
 
 #### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
