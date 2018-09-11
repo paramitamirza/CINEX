@@ -1,4 +1,6 @@
 ### Experiments on five relations
+
+#### CRF
 Please check the `crf_experiments_five_rel/iswc_experiment_crf_five_rel.sh` bash script:
 ```
 #!/bin/bash
@@ -18,3 +20,7 @@ sh iswc_experiment_crf_per_relation_negation.sh P26 0.5 0.1
 The predicted counting quantifiers for each relation are available in [`crf_experiments_five_rel/crf_five_rel_predicted`](crf_experiments_five_rel/crf_five_rel_predicted/), in the format of tab-separated values (.tsv), e.g., for hasChild relation (wdt:P40):
 
 ![sample hasChild (P40)](hasChild.png)
+
+#### bi-LSTM
+
+### Experiments on ~2.5K Wikidata relations
