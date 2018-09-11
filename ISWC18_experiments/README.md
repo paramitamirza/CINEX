@@ -1,5 +1,5 @@
 ### Requirements
-* Build the required JARs
+* Build the required CINEX JARs
 ```
 ant -f CINEXPreprocessing.xml
 ant -f CINEXClassifier.xml
