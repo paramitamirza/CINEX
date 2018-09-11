@@ -750,6 +750,7 @@ public class Evaluation {
 								(tConf >= 0 && zRange < 100.0 && predictedCProbS > tConf && predictedCProbZ <= zRange && predictedCProbZ >= -zRange)
 								){
 //							System.out.println("final::: " + predictedCardinal + ":" + predictedProbS + ":" + evidence);
+//							System.out.println(wikiLabel);
 							bw.write(entityId + "\t"
 									+ "https://en.wikipedia.org/wiki?curid=" + wikiCurid + "\t"
 									+ java.net.URLDecoder.decode(wikiLabel, "UTF-8") + "\t" 
