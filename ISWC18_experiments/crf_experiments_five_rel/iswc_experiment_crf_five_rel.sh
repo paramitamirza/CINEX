@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mkdir -f ./crf_five_rel_feature_data/
+mkdir -f ./crf_five_rel_models/
+mkdir -f ./crf_five_rel_out/
+mkdir -f ./crf_five_rel_predicted/
+
 #Five relations: containsWork (P527_Q7725310), containsAdmin (P150), hasMember (P527_Q2088357), 
 #hasChild (P40) and hasSpouse (P26)
 bash iswc_experiment_crf_per_relation.sh P527_Q7725310 1.0 0.1
