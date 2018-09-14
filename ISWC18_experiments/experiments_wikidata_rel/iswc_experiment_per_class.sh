@@ -64,12 +64,15 @@ do
         java -jar ../CINEX/CINEXEvaluation.jar --prob 0.1 --compositional --crfeval --ordinals --zero -i "${f}" -a "${all}" -p "${relname} ${rellbl}" -f ./all_rel_out/"${relname}"_cardinality.out -r ./performance_crf_all_rel.txt -o ./all_rel_predicted/"${relname}"_"${rellbl}".tsv &> /dev/null
 
 
-        gzip -f ./all_rel_feature_data/"${relname}"_train_cardinality.data
+        rm -f ./all_rel_feature_data/"${relname}"_train_cardinality.data
         gzip -f ./all_rel_feature_data/"${relname}"_test_cardinality.data
         gzip -f ./all_rel_eval_out/"${relname}"_cardinality.out
         gzip -f ./all_rel_out/"${relname}"_cardinality.out
+        gzip -f ./all_rel_models/"${relname}".model
 
-        rm -f ./all_rel_models/"${relname}".model
+        if [ ! -s ./all_rel_predicted/"${relname}"_"${rellbl}".tsv ] ; then
+            rm -f ./all_rel_predicted/"${relname}"_"${rellbl}".tsv
+        fi
 
     else
         echo "Not enough data for ${relname}."        
