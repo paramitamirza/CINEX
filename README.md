@@ -24,5 +24,12 @@ Please check [`ISWC18_experiments/`](ISWC18_experiments/), as well as the follow
 #### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
 
+### ACL 2017 Experiments
+
+Please check [`Relation Cardinality Extraction`](https://github.com/paramitamirza/RelationCardinalityExtraction), as well as the following publication, for more information about data used, experimental details and results.
+
+#### Publication
+Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Cardinal Virtues: Extracting Relation Cardinalities from Text*. In Proceedings of ACL 2017 (short paper). [[pdf]](http://aclweb.org/anthology/P/P17/P17-2055.pdf)
+
 ### Contact
 For more information please contact [Paramita Mirza](http://paramitamirza.com/) (paramita135@gmail.com).
