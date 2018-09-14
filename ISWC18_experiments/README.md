@@ -26,6 +26,8 @@ sh iswc_experiment_crf_per_relation.sh P26 0.5 0.1
 sh iswc_experiment_crf_per_relation_negation.sh P40 0.5 0.1
 sh iswc_experiment_crf_per_relation_negation.sh P26 0.5 0.1
 ```
+##### Predicted Counting Quantifiers
+
 The predicted counting quantifiers for each relation are available in [`crf_experiments_five_rel/crf_five_rel_predicted/`](crf_experiments_five_rel/crf_five_rel_predicted/), in the format of tab-separated values (.tsv), e.g., for hasChild relation ([wdt:P40](https://www.wikidata.org/wiki/Property:P40)):
 
 ![sample hasChild (P40)](hasChild.png)
@@ -37,12 +39,12 @@ The predicted counting quantifiers for each relation are available in [`crf_expe
 * Please check the [`experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh`](experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh) bash script to prepare the feature data for all entities in a given class (which calls [`experiments_wikidata_rel/iswc_prepare_feature_per_class.sh`](experiments_wikidata_rel/iswc_prepare_feature_per_class.sh))
 * Please check the [`experiments_wikidata_rel/iswc_experiment_all_classes.sh`](experiments_wikidata_rel/iswc_experiment_all_classes.sh) bash script to run the experiments for all relations related to a given class (which calls [`experiments_wikidata_rel/iswc_experiment_per_class.sh`](experiments_wikidata_rel/iswc_experiment_per_class.sh))
 
+##### Predicted Counting Quantifiers
+
 The predicted counting quantifiers for each relation are available in [`experiments_wikidata_rel/all_rel_predicted/`](experiments_wikidata_rel/all_rel_predicted/), in the format of tab-separated values (.tsv), as for the previous five relations.
 
 ### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
-
-_! Whenever making reference to this resource please cite the paper in the Publication section. !_
 
 ### Contact
 For more information please contact [Paramita Mirza](http://paramitamirza.com/) (paramita135@gmail.com).
