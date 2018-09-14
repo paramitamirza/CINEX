@@ -17,6 +17,6 @@ cd ../
 python combine_out_lstm.py ../crf_experiments_five_rel/crf_five_rel_out/"${name}"_cardinality.out ./lstm_five_rel_feature_data/eval/"${name}"_eval_test_cardinality.pred > ./lstm_five_rel_out/"${name}"_cardinality.lstm.out
 
 #Evaluate
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --ordinals --crfeval -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}" -f ./lstm_five_rel_out/"${name}"_cardinality.lstm.out -r ./performance_lstm_five_rel.txt -o ./lstm_five_rel_predicted/"${name}"_bilstm_crf_char_crfeval.tsv
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --ordinals --crfeval -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}" -f ./lstm_five_rel_out/"${name}"_cardinality.lstm.out -r ./performance_lstm_five_rel.tsv -o ./lstm_five_rel_predicted/"${name}"_bilstm_crf_char_crfeval.tsv
 
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" -x --compositional --ordinals --crfeval -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}" -f ./lstm_five_rel_out/"${name}"_cardinality.lstm.out -r ./performance_lstm_five_rel_relaxed.txt 
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" -x --compositional --ordinals --crfeval -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_relaxed -f ./lstm_five_rel_out/"${name}"_cardinality.lstm.out -r ./performance_lstm_five_rel.tsv 

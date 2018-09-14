@@ -21,12 +21,12 @@ java -Xms2g -Xmx8g -jar ../CINEX/CINEXClassifier.jar -c "${CRFPATH}" -p "${name}
 mv ./crf_five_rel_feature_data/"${name}"_cardinality.out ./crf_five_rel_out/
 
 #Evaluate
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}" -f ./crf_five_rel_out/"${name}"_cardinality.out -r ./performance_crf_five_rel.txt -o ./crf_five_rel_predicted/"${name}".tsv
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}" -f ./crf_five_rel_out/"${name}"_cardinality.out -r ./performance_crf_five_rel.tsv -o ./crf_five_rel_predicted/"${name}".tsv
 
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_relaxed -f ./crf_five_rel_out/"${name}"_cardinality.out -r ./performance_crf_five_rel.txt -x  > /dev/null
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_relaxed -f ./crf_five_rel_out/"${name}"_cardinality.out -r ./performance_crf_five_rel.tsv -x  > /dev/null
 
 #Evaluate manually annotated output file
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_manual -f ./crf_five_rel_out/manual_mention_annotation/"${name}"_ordinals_cardinality_manual.out -r ./performance_crf_five_rel_manual.txt -o ./crf_five_rel_predicted/manual_mention_annotation/"${name}"_manual.tsv
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_manual -f ./crf_five_rel_out/manual_mention_annotation/"${name}"_ordinals_cardinality_manual.out -r ./performance_crf_five_rel_manual.tsv -o ./crf_five_rel_predicted/manual_mention_annotation/"${name}"_manual.tsv
 
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_manual_relaxed -f ./crf_five_rel_out/manual_mention_annotation/"${name}"_ordinals_cardinality_manual.out -r ./performance_crf_five_rel_manual.txt -x  > /dev/null
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --compositional --crfeval --ordinals -i ../entity_list_five_rel/eval/val_random_"${name}".csv -p "${name}"_manual_relaxed -f ./crf_five_rel_out/manual_mention_annotation/"${name}"_ordinals_cardinality_manual.out -r ./performance_crf_five_rel_manual.tsv -x  > /dev/null
 

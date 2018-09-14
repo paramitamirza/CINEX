@@ -18,6 +18,6 @@ java -Xms2g -Xmx8g -jar ../CINEX/CINEXClassifier.jar -c "${CRFPATH}" -p "${name}
 mv ./crf_five_rel_feature_data/"${name}"_neg_cardinality.out ./crf_five_rel_out/
 
 #Evaluate
-java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --zero --crfeval -i ../entity_list_five_rel/eval/val_novalue_"${name}".csv -p "${name}" -f ./crf_five_rel_out/"${name}"_neg_cardinality.out -r ./performance_crf_five_rel_neg.txt -o ./crf_five_rel_predicted/"${name}"_neg.tsv
+java -jar ../CINEX/CINEXEvaluation.jar --prob "${prob}" --zero --crfeval -i ../entity_list_five_rel/eval/val_novalue_"${name}".csv -p "${name}" -f ./crf_five_rel_out/"${name}"_neg_cardinality.out -r ./performance_crf_five_rel_neg.tsv -o ./crf_five_rel_predicted/"${name}"_neg.tsv
 
 
