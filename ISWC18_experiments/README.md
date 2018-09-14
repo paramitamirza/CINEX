@@ -6,7 +6,7 @@ ant -f CINEXClassifier.xml
 ant -f CINEXEvaluation.xml
 ```
 * Download and install [CRF++](https://taku910.github.io/crfpp/), then set the `$CRFPATH` in the bash scripts.
-* Install [Tensorflow](https://www.tensorflow.org/) for experiments with bi-LSTM-CRF
+* Install [Tensorflow](https://www.tensorflow.org/) for experiments with bi-LSTM-CRF.
 
 ### Experiments on five relations
 
