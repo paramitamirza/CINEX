@@ -6,6 +6,8 @@ Such **counting quantifiers** can help in a variety of tasks such as query answe
 
 We employ distant supervision using fact counts from a knowledge base as training seeds, and leverage CRF-based sequence tagging models to identify counting information in the text. Experiments with five human-evaluated relations show that CINEX can achieve 60% average precision for extracting counting information. In a large-scale experiment, we demonstrate the potential for knowledge base enrichment by applying CINEX to 2,474 frequent relations in Wikidata. CINEX can assert the existence of 2.5M facts for 110 distinct relations, which is 28% more than the existing Wikidata facts for these relations.
 
+The predicted counting quantifiers for (selected 37) Wikidata relations, by running the learned models on all entities in a class given a Wikidata property-class pair (e.g., all child of humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
+
 ### Requirements
 * Java Runtime Environment (JRE) 1.7.x or higher
 
