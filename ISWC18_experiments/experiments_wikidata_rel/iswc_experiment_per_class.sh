@@ -12,7 +12,7 @@ mkdir -p ./all_rel_predicted/
 
 gunzip ./all_class_feature_data/"${name}"_test_cardinality.data.gz
 
-for f in ./entity_list_all_rel/train_all/"${name}"/*
+for f in ../entity_list_all_rel/train_all/"${name}"/*
 do
     class="${name}"
     prop=${f##*/}
@@ -29,7 +29,7 @@ do
 
     evalfile="${f/min1/eval}"
     evalfile="${evalfile/\/train_/\/eval_}"
-    all=./entity_list_all_rel/classes_all/"${class}"-all.tsv
+    all=../entity_list_all_rel/classes_all/"${class}"-all.tsv
 
     size=$(wc -l < $f)
     sizeall=$(wc -l < $all)
