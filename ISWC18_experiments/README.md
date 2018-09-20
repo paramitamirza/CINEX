@@ -1,4 +1,4 @@
-## ISWC 2018 Experiment Details
+## ISWC 2018 Experimental Details
 ### Requirements
 * Build the required CINEX JARs
 ```
