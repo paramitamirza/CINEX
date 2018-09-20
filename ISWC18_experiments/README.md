@@ -52,7 +52,7 @@ The predicted counting quantifiers for each relation are available in [`crf_expe
 
 ##### Predicted Counting Quantifiers
 
-The predicted counting quantifiers for (selected 37) relations, by running the learned models on all entities given a Wikidata class (e.g., all humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
+The predicted counting quantifiers for (selected 37) Wikidata relations, by running the learned models on all entities in a class given a Wikidata property-class pair (e.g., all child of humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
 
 ### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
