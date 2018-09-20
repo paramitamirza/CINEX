@@ -47,12 +47,12 @@ The predicted counting quantifiers for each relation are available in [`crf_expe
 
 ### Experiments on ~2.5K Wikidata relations
 
-* Please check the [`experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh`](experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh) bash script to prepare the feature data for all entities in a given class (which calls [`experiments_wikidata_rel/iswc_prepare_feature_per_class.sh`](experiments_wikidata_rel/iswc_prepare_feature_per_class.sh))
-* Please check the [`experiments_wikidata_rel/iswc_experiment_all_classes.sh`](experiments_wikidata_rel/iswc_experiment_all_classes.sh) bash script to run the experiments for all relations related to a given class (which calls [`experiments_wikidata_rel/iswc_experiment_per_class.sh`](experiments_wikidata_rel/iswc_experiment_per_class.sh))
+1. Please check the [`experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh`](experiments_wikidata_rel/iswc_prepare_feature_all_classes.sh) bash script to prepare the feature data for all entities in a given class (which calls [`experiments_wikidata_rel/iswc_prepare_feature_per_class.sh`](experiments_wikidata_rel/iswc_prepare_feature_per_class.sh))
+2. Please check the [`experiments_wikidata_rel/iswc_experiment_all_classes.sh`](experiments_wikidata_rel/iswc_experiment_all_classes.sh) bash script to run the experiments for all relations related to a given class (which calls [`experiments_wikidata_rel/iswc_experiment_per_class.sh`](experiments_wikidata_rel/iswc_experiment_per_class.sh))
 
 ##### Predicted Counting Quantifiers
 
-The predicted counting quantifiers for each relation are available in [`experiments_wikidata_rel/all_rel_predicted/`](experiments_wikidata_rel/all_rel_predicted/), in the format of tab-separated values (.tsv), as for the previous five relations.
+The predicted counting quantifiers for (selected 37) relations, by running the learned models on all entities given a Wikidata class (e.g., all humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
 
 ### Publication
 Paramita Mirza, Simon Razniewski, Fariz Darari and Gerhard Weikum. *Enriching Knowledge Bases with Counting Quantifiers*. In Proceedings of ISWC 2018. [[pdf]](https://arxiv.org/pdf/1807.03656.pdf)
