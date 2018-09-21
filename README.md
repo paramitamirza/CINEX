@@ -37,15 +37,16 @@ usage: CINEX
 As the source text, the URL of a Wikipedia article must be provided, optionally, a cleaner source text can also be given as a text file. A pair of Wikidata <property, class> IDs (e.g., <P40, Q5> denoting a child-of-human relation) is required, as well as the path to a directory containing the corresponding model* (P40_Q5.model.gz). Finally, CRF++ must be installed, and its path must also be given. For example:
 ```
 java -Xmx2G -jar ./target/CINEX-<version>.jar 
-	-u https://en.wikipedia.org/wiki/Angela_Merkel 
-	-p P40 -c Q5 -m ./crf_models 
+	-u https://en.wikipedia.org/wiki/Robin_Williams 
+	-p P26 -c Q5 -m ./crf_models 
 	--crf /home/paramita/Projects/counting_quantifier/tools/CRF++-0.58/
 ```
 which gives as a result:
 ```
-The predicted counting quantifier of child of Angela_Merkel (class: human) is: 0
-	confidence score: 0.145479
-	evidence (type: cardinal): She has [no] children , but Sauer has two adult sons from a previous marriage .
+The predicted counting quantifier of spouse of Robin_Williams (class: human) is: 3
+	confidence score: 0.116744
+	evidence (type: ordinal): Williams married his [third] wife , graphic designer Susan Schneider , 
+				  on October 22 , 2011 , in St. Helena , California .
 ```
 *) Please find the list of available models in [`resources/CRF_models.tsv`](resources/CRF_models.tsv), all model files can be downloaded from [here](http://people.mpi-inf.mpg.de/~paramita/cinex_crf_models/).
 
