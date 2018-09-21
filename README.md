@@ -8,8 +8,11 @@ We employ distant supervision using fact counts from a knowledge base as trainin
 
 The predicted counting quantifiers for (selected 37) Wikidata relations, by running the learned models on all entities in a class given a Wikidata property-class pair (e.g., all child of humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
 
-### Requirements
+### Installing and Running CINEX
+
+#### Requirements
 * Java Runtime Environment (JRE) 1.7.x or higher
+* [CRF++](https://taku910.github.io/crfpp/): Yet Another CRF toolkit
 
 #### Maven 
 To build the fat (executable) JAR:
@@ -24,7 +27,7 @@ CINEX is also available on [Maven Central](https://search.maven.org/artifact/com
   <version>1.0.1</version>
 </dependency>
 ```
-### Usage
+#### Usage
 ```
 usage: CINEX
  -u,--url <arg>      Input Wikipedia URL   
@@ -49,14 +52,6 @@ The predicted counting quantifier of spouse of Robin_Williams (class: human) is:
 				  on October 22 , 2011 , in St. Helena , California .
 ```
 *) Please find the list of available models in [`resources/CRF_models.tsv`](resources/CRF_models.tsv), all model files can be downloaded from [here](http://people.mpi-inf.mpg.de/~paramita/cinex_crf_models/).
-
-##### Text processing tools:
-* [Stanford CoreNLP 3.7.x](http://stanfordnlp.github.io/CoreNLP/) or higher -- a suite of core NLP tools. The .jar file should be included in the classpath.
-
-##### Other libraries and tools:
-* [JSON-java](https://mvnrepository.com/artifact/org.json/json) - JSON for Java
-* [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/) - an API for parsing command line options passed to programs.
-* [CRF++](https://taku910.github.io/crfpp/): Yet Another CRF toolkit
 
 ### ISWC 2018 Experiments
 
