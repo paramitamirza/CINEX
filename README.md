@@ -12,7 +12,11 @@ The predicted counting quantifiers for (selected 37) Wikidata relations, by runn
 * Java Runtime Environment (JRE) 1.7.x or higher
 
 #### Maven 
-CINEX is now available on [Maven Central](https://search.maven.org/artifact/com.github.paramitamirza/CINEX/1.0.1/jar). Please add the following dependency in your `pom.xml`.
+To build the fat (executable) JAR:
+* Install the WS4J library in your local Maven repo, e.g., `mvn install:install-file -Dfile=./lib/ws4j-1.0.1.jar -DgroupId=edu.cmu.lti -DartifactId=ws4j -Dversion=1.0.1 -Dpackaging=jar`
+* Run `mvn package` to build the executable JAR file (in `target/CINEX-<version>.jar`).
+
+CINEX is also available on [Maven Central](https://search.maven.org/artifact/com.github.paramitamirza/CINEX/1.0.1/jar). Please add the following dependency in your `pom.xml`.
 ```
 <dependency>
   <groupId>com.github.paramitamirza</groupId>
@@ -20,10 +24,6 @@ CINEX is now available on [Maven Central](https://search.maven.org/artifact/com.
   <version>1.0.1</version>
 </dependency>
 ```
-To build the fat (executable) JAR:
-* Install the WS4J library in your local Maven repo, e.g., `mvn install:install-file -Dfile=./lib/ws4j-1.0.1.jar -DgroupId=edu.cmu.lti -DartifactId=ws4j -Dversion=1.0.1 -Dpackaging=jar`
-* Run `mvn package` to build the executable JAR file (in `target/CINEX-<version>.jar`).
-
 ### Usage
 ```
 usage: CINEX
