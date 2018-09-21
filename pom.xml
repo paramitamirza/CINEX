@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.paramitamirza</groupId>
   <artifactId>CINEX</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
 	<name>CINEX</name>
@@ -30,7 +30,7 @@
 		<url>https://github.com/paramitamirza/CINEX.git</url>
 		<connection>scm:git:https://github.com/paramitamirza/CINEX.git</connection>
 		<developerConnection>scm:git:https://github.com/paramitamirza/CINEX.git</developerConnection>
-		<tag>CINEX-1.0.0</tag>
+		<tag>CINEX-1.0.1</tag>
 	</scm>
 
 	<distributionManagement>
@@ -98,7 +98,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>catena.Catena</mainClass>
+							<mainClass>cinex.main.Cinex</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

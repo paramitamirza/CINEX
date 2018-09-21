@@ -122,21 +122,31 @@ public class Cinex {
 		
 		if (Files.isDirectory(Paths.get(dirModels))) {
 			
-			extractModelFile(dirModels + "/" + propName + "_" + className + ".model.gz");
+			File f = new File(dirModels + "/" + propName + "_" + className + ".model.gz");
+			if (f.exists() && !f.isDirectory()) { 
+				extractModelFile(dirModels + "/" + propName + "_" + className + ".model.gz");
+			}
 			
-			Classifier cl = new Classifier(propName + "_" + className, dirCRF, dirModels);
+			File modelFile = new File(dirModels + "/" + propName + "_" + className + ".model");
+			if (modelFile.exists()) {
 			
-			//Test model
-			cl.testModel(featureDataPath);
-			
-			String crfOutPath = featureDataPath.replace("_test_cardinality.data", "_cardinality.out");			
-			BufferedReader br = new BufferedReader(new FileReader(crfOutPath));
-			
-			Evaluation eval = new Evaluation();
-			eval.predictCRF(entityLabel, propName, className, crfOutPath, 0.1);
-			
-			Files.deleteIfExists(new File(featureDataPath).toPath());
-			Files.deleteIfExists(new File(crfOutPath).toPath());
+				Classifier cl = new Classifier(propName + "_" + className, dirCRF, dirModels);
+				
+				//Test model
+				cl.testModel(featureDataPath);
+				
+				String crfOutPath = featureDataPath.replace("_test_cardinality.data", "_cardinality.out");			
+				BufferedReader br = new BufferedReader(new FileReader(crfOutPath));
+				
+				Evaluation eval = new Evaluation();
+				eval.predictCRF(entityLabel, propName, className, crfOutPath, 0.1);
+				
+				Files.deleteIfExists(new File(featureDataPath).toPath());
+				Files.deleteIfExists(new File(crfOutPath).toPath());
+				
+			} else {
+				System.err.println("The model file " + dirModels + "/" + propName + "_" + className + ".model" + " doesn't exist!");
+			}
 			
 		} else {
 			System.err.println("Directory containing CRF++ models doesn't exist!");
