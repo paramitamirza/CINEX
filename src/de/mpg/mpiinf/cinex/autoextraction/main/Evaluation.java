@@ -340,6 +340,404 @@ public class Evaluation {
 		return getMedian(st);
 	}
 	
+	public void predictCRF(String entityLabel, String propId, String classId, String crfOutPath, double confScoreThreshold) throws IOException {
+		
+		long startTime = System.currentTimeMillis();
+		
+		boolean isCRF = true;
+		String[] labels = {"O", "_COMP_", "_YES_"};
+		
+		//Read result (.out) file
+		BufferedReader br = new BufferedReader(new FileReader(crfOutPath));
+		
+		Double prob = 0.0, probComp = 0.0;
+		List<String> nums = new ArrayList<String>();
+		List<Double> probs = new ArrayList<Double>();
+		
+		List<String> ords = new ArrayList<String>();
+		List<Double> oprobs = new ArrayList<Double>();
+		
+		double threshold = confScoreThreshold;
+		int num = 0;
+		long maxNum = 0;
+		
+		boolean compositional = true;
+		boolean addOrdinals = true;
+		
+		String[] cols;
+		List<String> sentence = new ArrayList<String>();
+		List<String> tags = new ArrayList<String>();
+		String entityId = null;
+		String goldLabel = null;
+		
+		long predictedCardinal = 0, predictedOrdinal = 0, predictedNumterm = 0, predictedArticle = 0;
+		double predictedCProb = 0.0, predictedOProb = 0.0, predictedNProb = 0.0, predictedAProb = 0.0;
+		double predictedCProbS = 0.0, predictedCProbZ = 0.0;
+		int numPredicted = 0;
+		String evidencec = "", evidenceo = "", evidencen = "", evidencea = "";
+		String evidenceType = "";
+		
+		String line = br.readLine();	//CRF sentence score
+		
+		while (line != null) {
+			
+			if(!StringUtils.join(nums, "").equals("")
+					|| !StringUtils.join(ords, "").equals("")) {
+				
+				Map<Integer, String> numbers = extractNumber(nums, probs, maxNum);
+				Map<Integer, String> ordinals = extractNumber(ords, oprobs, maxNum);
+				
+				long n = 0, no = 0;
+				double p = 0.0, pp;
+				double po = 0.0, ppo;
+				int m = 0, mm;
+				int mo = 0, mmo;
+				List<Integer> mlist = new ArrayList<Integer>();
+				List<Integer> mlista = new ArrayList<Integer>();
+				List<Integer> mlisto = new ArrayList<Integer>();
+				
+				boolean compTag = compositional;
+				
+				if (!numbers.isEmpty()) {
+				
+					if (compositional) {	
+						//When there are more than one in a sentence:
+						
+						if (compTag) {
+							Object[] keys = numbers.keySet().toArray();
+							pp = Double.parseDouble(numbers.get(keys[0]).split("#")[1]);
+							mm = (Integer)keys[0];
+							if (pp > threshold) {	
+								n = Long.parseLong(numbers.get(keys[0]).split("#")[0]);
+								mlist.add(mm);
+								p = pp;
+							}
+							
+							if (keys.length > 1) {						
+								for (int k = 1; k < keys.length; k++) {
+									pp = Double.parseDouble(numbers.get(keys[k]).split("#")[1]);
+									mm = (Integer)keys[k];	
+									
+									if (pp > threshold) {
+										if (mlist.isEmpty()) {
+											n = Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+											mlist.add(mm);
+											p = pp;
+											
+										} else {
+											if (conjExist(sentence, tags, mlist.get(mlist.size()-1), mm)
+//													&& (mm - mlist.get(mlist.size()-1)) <= 5 
+//													&& !isQuantifier(sentence, mm)
+//													&& !isPossPronouns(sentence, mm)
+													) {
+												if (pp > p) p = pp;
+	//											p += pp;
+												n += Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+												mlist.add(mm);
+											
+											} else {
+												if (pp > p) {
+													mlist.clear();
+													n = Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+													mlist.add(mm);
+													p = pp;
+												}
+											}
+										}									
+									}
+								}
+							}
+						} else {
+						
+							//if a number is a total of its following sequence of numbers, choose the total
+							int totalIdx = findTotalNumberOfComposition(numbers);
+							
+							if (totalIdx > 0) {
+								pp = Double.parseDouble(numbers.get(totalIdx).split("#")[1]);
+								if (pp > threshold) {
+									p = pp;
+									n = Integer.parseInt(numbers.get(totalIdx).split("#")[0]);
+									mlist.add(totalIdx);
+								}
+							
+							} else {
+								//else, add them up if there exists conjunction (comma, semicolon or 'and') in between
+								
+								Object[] keys = numbers.keySet().toArray();
+								pp = Double.parseDouble(numbers.get(keys[0]).split("#")[1]);
+								mm = (Integer)keys[0];
+								if (pp > threshold) {	
+									n = Long.parseLong(numbers.get(keys[0]).split("#")[0]);
+									mlist.add(mm);
+									p = pp;
+								}
+								
+								if (keys.length > 1) {						
+									for (int k = 1; k < keys.length; k++) {
+										pp = Double.parseDouble(numbers.get(keys[k]).split("#")[1]);
+										mm = (Integer)keys[k];	
+										
+										if (pp > threshold) {
+											if (mlist.isEmpty()) {
+												n = Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+												mlist.add(mm);
+												p = pp;
+												
+											} else {
+												if (conjExist(sentence, tags, mlist.get(mlist.size()-1), mm)
+														&& (mm - mlist.get(mlist.size()-1)) <= 5 
+														&& !isQuantifier(sentence, mm)
+														&& !isPossPronouns(sentence, mm)
+														) {
+													if (pp > p) p = pp;
+		//											p += pp;
+													n += Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+													mlist.add(mm);
+												
+												} else {
+													if (pp > p) {
+														mlist.clear();
+														n = Long.parseLong(numbers.get(keys[k]).split("#")[0]);
+														mlist.add(mm);
+														p = pp;
+													}
+												}
+											}									
+										}
+									}							
+								} 
+		//						p = p/numbers.size();
+							}
+						}
+						
+					} else {	
+						//When there are more than one in a sentence, choose the most probable
+						for (Integer key : numbers.keySet()) {
+							pp = Double.parseDouble(numbers.get(key).split("#")[1]);
+							mm = key;
+							if (pp > p
+									&& pp > threshold) {
+								n = Long.parseLong(numbers.get(key).split("#")[0]);
+								p = pp;
+								m = mm;
+							}
+						}
+						mlist.add(m);
+					}
+				}
+				
+				if (addOrdinals && !ordinals.isEmpty()) {
+					
+					//When there are more than one in a sentence, choose the most probable
+					for (Integer key : ordinals.keySet()) {
+						ppo = Double.parseDouble(ordinals.get(key).split("#")[1]);
+						mmo = key;
+						if (ppo > threshold) {
+							if (ppo > po) {
+								no = Long.parseLong(ordinals.get(key).split("#")[0]);
+								po = ppo;
+								mo = mmo;
+							} else if (ppo == po) {
+								if (Long.parseLong(ordinals.get(key).split("#")[0]) >= no) {
+									no = Long.parseLong(ordinals.get(key).split("#")[0]);
+									po = ppo;
+									mo = mmo;
+								}
+							}
+						}
+					}
+					mlisto.add(mo);
+				}
+				
+//				if (addDiffSentence) {	
+//					//When there are more than one sentences, add them up
+//					predictedCardinal += n;
+//					predictedProb += p;
+//					evidence += wordsToSentence(sentence, mlist) + "|";
+//					numPredicted++;
+//					predictedProb = predictedProb / numPredicted;
+//					
+//				} else {
+					//When there are more than one sentences, choose the most probable
+				
+					if (mlist.size() == 1) {
+						if (sentence.get(mlist.get(0)).equals("a") || sentence.get(mlist.get(0)).equals("a")) {
+							if (p > predictedAProb) {
+								predictedArticle = n;
+								predictedAProb = p;
+								evidencea = wordsToSentence(sentence, mlist);
+							}
+						} else if (sentence.get(mlist.get(0)).startsWith("LatinGreek_")) {
+							if (p > predictedNProb) {
+								predictedNumterm = n;
+								predictedNProb = p;
+								evidencen = wordsToSentence(sentence, mlist);
+							}
+						} else {
+							predictedCardinal = n;
+							predictedCProb = p;
+							evidencec = wordsToSentence(sentence, mlist);
+						}
+						
+					} else {
+						predictedCardinal = n;
+						predictedCProb = p;
+						evidencec = wordsToSentence(sentence, mlist);
+					}
+					
+					//When there are more than one sentences, choose the highest ordinal
+					if (addOrdinals 
+//							&& po > predictedOProb
+							&& no > predictedOrdinal
+							) {
+						predictedOrdinal = no;
+						predictedOProb = po;
+						evidenceo = wordsToSentence(sentence, mlisto);
+					}
+//				}
+			}
+			
+			//Sentence starts			
+			
+			nums = new ArrayList<String>();
+			probs = new ArrayList<Double>();
+			
+			ords = new ArrayList<String>();
+			oprobs = new ArrayList<Double>();
+			
+			sentence = new ArrayList<String>();
+			tags = new ArrayList<String>();
+			
+			int numChild = 0;
+			line = br.readLine();
+			
+			while (line != null && !line.trim().equals("")) {
+				cols = line.split("\t");
+				
+				if (cols[4].equals("_propernoun_")) {
+					sentence.add(cols[3].replaceAll("_", " "));
+				
+				} else if (cols[3].startsWith("PRP$_")) {
+					sentence.add(cols[3].split("_")[2]);
+					
+				} else {
+					sentence.add(cols[3]);
+				}
+				
+				if (isCRF) {
+					prob = -1.0; probComp = -1.0;
+					for (int l=0; l<labels.length; l++) {
+						if (labels[l].equals("_YES_")) {
+							prob = Double.valueOf(cols[cols.length-labels.length+l].split("/")[1]);
+						} else if (labels[l].equals("_COMP_")) {
+							probComp = Double.valueOf(cols[cols.length-labels.length+l].split("/")[1]);
+						}
+					}
+					if (prob > probComp && prob > threshold) tags.add("_YES_");
+					else if (probComp > prob && probComp > threshold) tags.add("_COMP_");
+					else tags.add("O");
+					
+				} else {
+					tags.add(cols[9].split("/")[0]);
+					if (cols[9].startsWith("_YES_")) {
+						prob = Double.valueOf(cols[9].split("/")[1]);
+					} else {
+						prob = -1.0;
+					}
+				}
+				
+				if (prob > threshold) {
+					if (addOrdinals) {
+						if (cols[4].equals("_ord_")) {
+							ords.add(cols[3]);
+							oprobs.add(prob);
+							nums.add("");
+							probs.add(prob);
+						} else {
+							ords.add("");
+							oprobs.add(prob);
+							nums.add(cols[3]);
+							probs.add(prob);
+						}
+					} else {
+						nums.add(cols[3]);
+						probs.add(prob);
+					}
+					
+				} else {
+					nums.add("");
+					probs.add(0.0);
+					if (addOrdinals) {
+						ords.add("");
+						oprobs.add(prob);
+					}
+				}
+				
+				line = br.readLine();
+			}
+			
+			line = br.readLine();
+			
+		}
+		
+		//Last entity
+		
+		evidenceType = "cardinal";
+		if (predictedCProb == 0.0) {	//no cardinal found
+			
+			if (predictedNProb == 0.0) {
+				
+				if (addOrdinals) {
+					if (predictedOProb == 0.0) {
+						
+						if (predictedAProb == 0.0) {
+							
+						} else {
+							predictedCardinal = predictedArticle;
+							predictedCProb = predictedAProb;
+							evidencec = evidencea;
+							evidenceType = "article";
+						}
+						
+					} else {
+						predictedCardinal = predictedOrdinal;
+						predictedCProb = predictedOProb;
+						evidencec = evidenceo;
+						evidenceType = "ordinal";
+					}
+				
+				} else {
+					if (predictedAProb == 0.0) {
+						
+					} else {
+						predictedCardinal = predictedArticle;
+						predictedCProb = predictedAProb;
+						evidencec = evidencea;
+						evidenceType = "article";
+					}
+					
+				}
+				
+			} else {
+				predictedCardinal = predictedNumterm;
+				predictedCProb = predictedNProb;
+				evidencec = evidencen;
+				evidenceType = "numterm";
+			}	
+			
+		}
+		
+		WikidataLabel wl = new WikidataLabel();
+		String result = "The predicted counting quantifier of " + wl.getLabel(propId) + " of "
+				+ java.net.URLDecoder.decode(entityLabel, "UTF-8") + " (class: " + wl.getLabel(classId) + ") is: " + predictedCardinal;
+		result += "\n\tconfidence score: " + predictedCProb;
+		result += "\n\tevidence (type: " + evidenceType + "): " + evidencec;
+		
+		System.out.println(result);
+		
+		br.close();
+	}
+	
 	public void evaluate(String relName, String csvPath, String allPath,
 			String delimiter, String crfOutPath, 
 			String[] labels, String outPath, String resultPath,

@@ -9,8 +9,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,13 +75,15 @@ public class WikipediaArticle {
 			WikipediaArticle wa = new WikipediaArticle();
 			
 //			System.out.println(wa.fetchArticleMediaWiki(32817));					// using page ID
+			System.out.println(wa.fetchWikiArticleMediaWiki("https://en.wikipedia.org/wiki/Saarbr%C3%BCcken"));					// using Wikipedia URL
 			
 //			System.out.println(wa.fetchArticleMediaWiki("Arno%20Kompatscher"));		// using page title (in URL format)
 //			System.out.println(wa.fetchArticleMediaWikiFirstLine("Arno%20Kompatscher"));
 			
 			///////// Deep Learning group project prepare data /////////
 //			String humanPath = "/home/paramita/D5data-8/RCE_pipeline/www_broader/classes_all/Q5-all.tsv";
-			String humanPath = "/home/paramita/Q5-all.tsv";
+//			String humanPath = "/home/paramita/Q5-all.tsv";
+			/**
 			BufferedReader br = new BufferedReader(new FileReader(humanPath));
 			String line = br.readLine();
 			int limit = 10000;
@@ -103,8 +107,9 @@ public class WikipediaArticle {
 			}
 			br.close();
 			bw.close();
+			**/
 			////////////////////////////////////////////////////////////
-			
+						
 		
 		} else {
 			// Using saved and parsed Wikipedia dump to fetch Wikipedia articles -- can be offline
@@ -363,6 +368,33 @@ public class WikipediaArticle {
 	}
 	
 	public String fetchArticleMediaWiki(String pageTitle) throws MalformedURLException, IOException {
+		String wikiUrl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&explaintext&titles=" + pageTitle;
+		
+		BufferedReader in = new BufferedReader(new InputStreamReader(new URL(wikiUrl).openStream()));
+        String input = "", inputLine;
+        while ((inputLine = in.readLine()) != null)
+            input += inputLine + "\n";
+        in.close();
+        
+        JSONObject pages = new JSONObject(input).getJSONObject("query").getJSONObject("pages");
+        for (String key : pages.keySet()) {
+        	JSONObject content = pages.getJSONObject(key);
+        	if (content.has("extract")) return content.getString("extract");
+        }
+        return "";
+	}
+	
+	public String entityLabel(String wikiURL) throws UnsupportedEncodingException, MalformedURLException {
+		String decoded = java.net.URLDecoder.decode(wikiURL, "UTF-8");
+		URL url = new URL(decoded);
+		String entityLabel = URLEncoder.encode(url.getPath().substring(url.getPath().lastIndexOf('/') + 1), "UTF-8");
+		
+		return entityLabel;
+	}
+	
+	public String fetchWikiArticleMediaWiki(String wikiURL) throws MalformedURLException, IOException {
+		
+		String pageTitle = entityLabel(wikiURL);
 		String wikiUrl = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&explaintext&titles=" + pageTitle;
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(new URL(wikiUrl).openStream()));

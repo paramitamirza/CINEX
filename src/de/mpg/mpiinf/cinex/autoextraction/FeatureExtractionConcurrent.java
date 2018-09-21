@@ -116,7 +116,7 @@ public class FeatureExtractionConcurrent {
 			testInstances = readRandomInstances(this.getInputRandomCsvFile());
 		}
 		String line;
-		String wikidataId = "", count = "", freqNum = "", quarter = "", countDist = "";
+		String entityId = "", count = "", freqNum = "", quarter = "", countDist = "";
 		Integer curId;
 		boolean training, isIgnoreFreq;
 		
@@ -147,8 +147,8 @@ public class FeatureExtractionConcurrent {
 		int idxId = 0;
 		while (line != null
 				&& idxId < maxNumTrain) {
-			wikidataId = line.split(delimiter)[0];
-			topPopularIds.add(wikidataId);
+			entityId = line.split(delimiter)[0];
+			topPopularIds.add(entityId);
 			line = br.readLine();
 			idxId ++;
 		}
@@ -158,9 +158,10 @@ public class FeatureExtractionConcurrent {
 		line = br.readLine();
 		
 		//First wikidataId starts...
-		wikidataId = line.split(delimiter)[0];
+		entityId = line.split(delimiter)[0];
         count = line.split(delimiter)[1];
         curId = Integer.parseInt(line.split(delimiter)[2]);
+        String sourceText = wiki.fetchArticle(curId);
         
         if (line.split(delimiter).length > 5) {
 	        countDist = line.split(delimiter)[5];
@@ -184,18 +185,23 @@ public class FeatureExtractionConcurrent {
         }
         
 		training = true;
-        if (testInstances.contains(wikidataId) 
+        if (testInstances.contains(entityId) 
 //        		|| !trainInstances.contains(wikidataId)
         	) {
 			training = false;
 		} 
+        
         if (training) {
-        	if (topPopularIds.contains(wikidataId)) {
+        	if (topPopularIds.contains(entityId)) {
 	        	if ((quarterPart == 0) 
 	        			|| (quarterPart > 0 && quarterPart == Integer.parseInt(quarter))) {
 	        		
-					GenerateFeatures ext = new GenerateFeatures(getDirFeature(), getRelName(),
-							wiki, wikidataId, count, curId, freqNum,
+	        		GenerateFeatures ext = new GenerateFeatures(getDirFeature(), getRelName(),
+//							wiki, 
+	        				sourceText,
+							entityId, count, 
+//							curId, 
+							freqNum,
 			        		training,
 			        		ignoreHigher, ignoreHigherLess, 
 			        		infThreshold, countDist,
@@ -208,8 +214,13 @@ public class FeatureExtractionConcurrent {
 	        	}
         	}
         } else {
+        	
         	GenerateFeatures ext = new GenerateFeatures(getDirFeature(), getRelName(),
-					wiki, wikidataId, count, curId, freqNum,
+//					wiki,
+    				sourceText, 
+					entityId, count, 
+//					curId, 
+					freqNum,
 	        		training,
 	        		ignoreHigher, ignoreHigherLess, 
 	        		infThreshold, countDist,
@@ -232,9 +243,10 @@ public class FeatureExtractionConcurrent {
 		}
 		
 		while (line != null) {
-			wikidataId = line.split(delimiter)[0];
+			entityId = line.split(delimiter)[0];
 	        count = line.split(delimiter)[1];
 	        curId = Integer.parseInt(line.split(delimiter)[2]);
+	        sourceText = wiki.fetchArticle(curId);
 	        
 	        if (line.split(delimiter).length > 5) {
 		        countDist = line.split(delimiter)[5];
@@ -255,16 +267,20 @@ public class FeatureExtractionConcurrent {
 	        }   
 	        
 	        training = true;
-	        if (testInstances.contains(wikidataId)) {
+	        if (testInstances.contains(entityId)) {
 				training = false;
 			} 
 	        
 	        if (training) {
-	        	if (topPopularIds.contains(wikidataId)) {
+	        	if (topPopularIds.contains(entityId)) {
 		        	if ((quarterPart == 0) 
 		        			|| (quarterPart > 0 && quarterPart == Integer.parseInt(quarter))) {
 			        	Runnable worker = new GenerateFeatures(getDirFeature(), getRelName(),
-								wiki, wikidataId, count, curId, freqNum,
+//								wiki,
+			        			sourceText,
+								entityId, count, 
+//								curId, 
+								freqNum,
 				        		training,
 				        		ignoreHigher, ignoreHigherLess, 
 				        		infThreshold, countDist,
@@ -278,7 +294,11 @@ public class FeatureExtractionConcurrent {
 	        	}
 	        } else {
 	        	Runnable worker = new GenerateFeatures(getDirFeature(), getRelName(),
-						wiki, wikidataId, count, curId, freqNum,
+//						wiki, 
+						sourceText,
+	        			entityId, count, 
+//						curId, 
+						freqNum,
 		        		training,
 		        		ignoreHigher, ignoreHigherLess, 
 		        		infThreshold, countDist,

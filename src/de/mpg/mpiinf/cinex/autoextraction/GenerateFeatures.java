@@ -26,11 +26,11 @@ public class GenerateFeatures implements Runnable {
 	private String dirFeature;
 	private String relName;
 	
-	private WikipediaArticle wiki;
-	
-	private String wikidataId;
+//	private WikipediaArticle wiki;
+//	private Integer curId;
+	private String sourceText;
+	private String entityId;
 	private String count;
-	private Integer curId;
 	
 	private boolean training;
 	
@@ -57,7 +57,12 @@ public class GenerateFeatures implements Runnable {
 	private List<Long> frequentNumbers;
 	
 	public GenerateFeatures(String dirFeature, String relName,
-			WikipediaArticle wiki, String wikidataId, String count, Integer curId, String freqNum,
+//			WikipediaArticle wiki,
+			String sourceText,
+			String entityId, 
+			String count, 
+//			Integer curId, 
+			String freqNum,
 			boolean training,
 			boolean ignoreHigher, int ignoreHigherLess,
 			float countInfThreshold, String countDist,
@@ -70,11 +75,12 @@ public class GenerateFeatures implements Runnable {
 		this.setDirFeature(dirFeature);
 		this.setRelName(relName);
 		
-		this.setWiki(wiki);
+//		this.setWiki(wiki);
+//		this.setCurId(curId);
+		this.setSourceText(sourceText);
 		
-		this.setWikidataId(wikidataId);
+		this.setEntityId(entityId);
 		this.setCount(count);
-		this.setCurId(curId);
 		
 		this.setTraining(training);
 		
@@ -107,6 +113,59 @@ public class GenerateFeatures implements Runnable {
 		this.setFrequentNumbers(freqNums);
 	}
 	
+	public GenerateFeatures(String dirFeature, String relName,
+//			WikipediaArticle wiki,
+			String sourceText,
+			String entityId, 
+			String count, 
+//			Integer curId, 
+//			String freqNum,
+			boolean training,
+//			boolean ignoreHigher, int ignoreHigherLess,
+//			float countInfThreshold, String countDist,
+//			boolean ignoreFreq, int maxCount,
+			boolean nummod, boolean ordinal, boolean numterms,
+			boolean articles, boolean quantifiers, boolean pronouns,
+			boolean compositional, 
+			boolean negation, boolean negTrain
+			) {
+		this.setDirFeature(dirFeature);
+		this.setRelName(relName);
+		
+//		this.setWiki(wiki);
+//		this.setCurId(curId);
+		this.setSourceText(sourceText);
+		
+		this.setEntityId(entityId);
+		this.setCount(count);
+		
+		this.setTraining(training);
+		
+		this.setNummod(nummod);
+		this.setOrdinal(ordinal);
+		this.setNumterms(numterms);
+		
+		this.setArticles(articles);
+		this.setQuantifiers(quantifiers);
+		this.setPronouns(pronouns);
+		
+		this.setCompositional(compositional);
+		
+		this.setNegation(negation);
+		this.setNegTrain(negTrain);
+		
+		this.setCountInfThreshold((float)0);
+		this.setCountDist(Double.parseDouble("0.0"));
+		
+		this.setIgnoreHigher(false);
+		this.setIgnoreFreq(false);
+		this.setIgnoreHigherLess(-1);
+		this.setMaxTripleCount(100000);
+		
+		List<Long> freqNums = new ArrayList<Long>();
+		this.setFrequentNumbers(freqNums);
+	}
+	
 	public static void main(String[] args) throws JSONException, IOException {
 		
 //		featExtraction.generateColumnsFile(true, false, 0);
@@ -118,9 +177,10 @@ public class GenerateFeatures implements Runnable {
 		// TODO Auto-generated method stub		
         try {
         	int numOfTriples = Integer.parseInt(this.getCount());
-    		String wikipediaText = this.getWiki().fetchArticle(this.getCurId());
+//    		String wikipediaText = this.getWiki().fetchArticle(this.getCurId());
+        	String sourceText = this.getSourceText();
 			
-			if (wikipediaText != "") {
+			if (sourceText != "") {
 				
 				String original;
 	    		Sentence sent;
@@ -129,7 +189,7 @@ public class GenerateFeatures implements Runnable {
 	    		int j=0;
 	    		Transform trans = new Transform();
 	    		
-	    		for (String l : wikipediaText.split("\\r?\\n")) {	//Split the paragraphs
+	    		for (String l : sourceText.split("\\r?\\n")) {	//Split the paragraphs
 	    			
 	    			if (!l.trim().isEmpty()) {
 		    			Document doc = new Document(l);
@@ -406,7 +466,7 @@ public class GenerateFeatures implements Runnable {
 				lemma = "_num_";
 //				lemma += "one_";
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 			
@@ -418,7 +478,7 @@ public class GenerateFeatures implements Runnable {
 				lemma = "_num_";
 //				lemma += "5_";
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -438,7 +498,7 @@ public class GenerateFeatures implements Runnable {
 					word = "PRP$_P_" + word;
 //					lemma += "5_";
 				}
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -449,7 +509,7 @@ public class GenerateFeatures implements Runnable {
 					) {
 				lemma = "_num_";
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 			
@@ -568,7 +628,7 @@ public class GenerateFeatures implements Runnable {
 							ignoreHigher, ignoreHigherLess, maxTripleCount);
 				}
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;								
 				
@@ -706,7 +766,7 @@ public class GenerateFeatures implements Runnable {
 				}
 				
 				k--;
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -829,7 +889,7 @@ public class GenerateFeatures implements Runnable {
 				}
 				
 				k--;
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -947,7 +1007,7 @@ public class GenerateFeatures implements Runnable {
 				}
 				
 				k--;
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -963,7 +1023,7 @@ public class GenerateFeatures implements Runnable {
 					label = "_YES_";
 				}
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -999,7 +1059,7 @@ public class GenerateFeatures implements Runnable {
 				}
 				
 				k--;
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word.substring(0, word.length()-1), lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word.substring(0, word.length()-1), lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -1009,7 +1069,7 @@ public class GenerateFeatures implements Runnable {
 				word = sent.word(k);
 				lemma = "_prp_";
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, dependent));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, dependent));
 				labels.add(label);
 				tokenIdx ++;
 				
@@ -1025,7 +1085,7 @@ public class GenerateFeatures implements Runnable {
 					idxComp.add(tokenIdx);
 				}
 				
-				tokenFeatures.add(generateLine(wikidataId, j+"", k+"", word, lemma, pos, ner, "O"));
+				tokenFeatures.add(generateLine(entityId, j+"", k+"", word, lemma, pos, ner, "O"));
 				labels.add(label);
 				tokenIdx ++;
 			}
@@ -1079,12 +1139,12 @@ public class GenerateFeatures implements Runnable {
 		return wikidataId + "\t" + sentId + "\t" + wordId + "\t" + word + "\t" + lemma + "\t" + pos + "\t" + ner + "\t" + dep + "\t" + label;
 	}
 
-	public String getWikidataId() {
-		return wikidataId;
+	public String getEntityId() {
+		return entityId;
 	}
 
-	public void setWikidataId(String wikidataId) {
-		this.wikidataId = wikidataId;
+	public void setEntityId(String wikidataId) {
+		this.entityId = wikidataId;
 	}
 
 	public String getCount() {
@@ -1143,6 +1203,7 @@ public class GenerateFeatures implements Runnable {
 		this.compositional = compositional;
 	}
 
+	/*
 	public WikipediaArticle getWiki() {
 		return wiki;
 	}
@@ -1150,7 +1211,9 @@ public class GenerateFeatures implements Runnable {
 	public void setWiki(WikipediaArticle wiki) {
 		this.wiki = wiki;
 	}
+	*/
 
+	/*
 	public Integer getCurId() {
 		return curId;
 	}
@@ -1158,6 +1221,7 @@ public class GenerateFeatures implements Runnable {
 	public void setCurId(Integer curId) {
 		this.curId = curId;
 	}
+	*/
 
 	public boolean isIgnoreHigher() {
 		return ignoreHigher;
@@ -1261,5 +1325,19 @@ public class GenerateFeatures implements Runnable {
 
 	public void setNegTrain(boolean negTrain) {
 		this.negTrain = negTrain;
+	}
+
+	/**
+	 * @return the sourceText
+	 */
+	public String getSourceText() {
+		return sourceText;
+	}
+
+	/**
+	 * @param sourceText the sourceText to set
+	 */
+	public void setSourceText(String sourceText) {
+		this.sourceText = sourceText;
 	}
 }
