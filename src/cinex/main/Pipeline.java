@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cinex.autoextraction.main;
+package cinex.main;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,9 +12,9 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.mpg.mpiinf.cinex.autoextraction.FeatureExtractionConcurrent;
-import de.mpg.mpiinf.cinex.autoextraction.ReadFromFile;
-import de.mpg.mpiinf.cinex.autoextraction.WikipediaArticle;
+import cinex.helper.FeatureExtractionConcurrent;
+import cinex.helper.ReadFromFile;
+import cinex.helper.WikipediaArticle;
 
 public class Pipeline {
 	

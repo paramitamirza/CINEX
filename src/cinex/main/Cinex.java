@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cinex.autoextraction.main;
+package cinex.main;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.zip.GZIPInputStream;
@@ -19,8 +21,8 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.mpg.mpiinf.cinex.autoextraction.GenerateFeatures;
-import de.mpg.mpiinf.cinex.autoextraction.WikipediaArticle;
+import cinex.helper.GenerateFeatures;
+import cinex.helper.WikipediaArticle;
 
 public class Cinex {
 	
@@ -92,6 +94,10 @@ public class Cinex {
 		long startTime = System.currentTimeMillis();
 		System.out.print("Generate feature file (in column format) for CRF++... ");
 		
+		PrintStream err = System.err;
+		System.setErr(new PrintStream(new OutputStream() {
+		    @Override public void write(int b) throws IOException {}
+		}));
 		GenerateFeatures ext = new GenerateFeatures(dirFeature, propName + "_" + className,
 //				wiki, 
 				sourceText,
@@ -107,7 +113,7 @@ public class Cinex {
         		compositional,
         		negation, negTrain);
 		ext.run();
-		
+		System.setErr(err);
 		long endTime   = System.currentTimeMillis();
 		float totalTime = (endTime - startTime)/(float)1000;
 		System.out.println("done [ " + totalTime + " sec].");

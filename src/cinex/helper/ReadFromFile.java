@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cinex.autoextraction;
+package cinex.helper;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;

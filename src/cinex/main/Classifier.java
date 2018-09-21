@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cinex.autoextraction.main;
+package cinex.main;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,7 +21,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
-import de.mpg.mpiinf.cinex.autoextraction.OSValidator;
+import cinex.helper.OSValidator;
 
 public class Classifier {
 	

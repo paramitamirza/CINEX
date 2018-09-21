@@ -1,4 +1,4 @@
-package de.mpg.mpiinf.cinex.autoextraction;
+package cinex.helper;
 
 public class AppendWikipediaCurid implements Runnable {
 	
