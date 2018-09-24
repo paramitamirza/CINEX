@@ -8,11 +8,18 @@ We employ distant supervision using fact counts from a knowledge base as trainin
 
 The predicted counting quantifiers for (selected 37) Wikidata relations, by running the learned models on all entities in a class given a Wikidata property-class pair (e.g., all child of humans), can be queried at [`https://cinex.cs.ui.ac.id/`](https://cinex.cs.ui.ac.id/).
 
-### Requirements
+### Installing and Running CINEX
+
+#### Requirements
 * Java Runtime Environment (JRE) 1.7.x or higher
+* [CRF++](https://taku910.github.io/crfpp/): Yet Another CRF toolkit
 
 #### Maven 
-CINEX is now available on [Maven Central](https://search.maven.org/artifact/com.github.paramitamirza/CINEX/1.0.1/jar). Please add the following dependency in your `pom.xml`.
+To build the fat (executable) JAR:
+* Install the WS4J library in your local Maven repo, e.g., `mvn install:install-file -Dfile=./lib/ws4j-1.0.1.jar -DgroupId=edu.cmu.lti -DartifactId=ws4j -Dversion=1.0.1 -Dpackaging=jar`
+* Run `mvn package` to build the executable JAR file (in `target/CINEX-<version>.jar`).
+
+CINEX is also available on [Maven Central](https://search.maven.org/artifact/com.github.paramitamirza/CINEX/1.0.1/jar). Please add the following dependency in your `pom.xml`.
 ```
 <dependency>
   <groupId>com.github.paramitamirza</groupId>
@@ -20,19 +27,7 @@ CINEX is now available on [Maven Central](https://search.maven.org/artifact/com.
   <version>1.0.1</version>
 </dependency>
 ```
-To build the fat (executable) JAR:
-* Install the WS4J library in your local Maven repo, e.g., `mvn install:install-file -Dfile=./lib/ws4j-1.0.1.jar -DgroupId=edu.cmu.lti -DartifactId=ws4j -Dversion=1.0.1 -Dpackaging=jar`
-* Run `mvn package` to build the executable JAR file (in `target/CINEX-<version>.jar`).
-
-##### Text processing tools:
-* [Stanford CoreNLP 3.7.x](http://stanfordnlp.github.io/CoreNLP/) or higher -- a suite of core NLP tools. The .jar file should be included in the classpath.
-
-##### Other libraries and tools:
-* [JSON-java](https://mvnrepository.com/artifact/org.json/json) - JSON for Java
-* [Apache Commons CLI](https://commons.apache.org/proper/commons-cli/) - an API for parsing command line options passed to programs.
-* [CRF++](https://taku910.github.io/crfpp/): Yet Another CRF toolkit
-
-### Usage
+#### Usage
 ```
 usage: CINEX
  -u,--url <arg>      Input Wikipedia URL   
@@ -44,13 +39,17 @@ usage: CINEX
 ``` 
 As the source text, the URL of a Wikipedia article must be provided, optionally, a cleaner source text can also be given as a text file. A pair of Wikidata <property, class> IDs (e.g., <P40, Q5> denoting a child-of-human relation) is required, as well as the path to a directory containing the corresponding model* (P40_Q5.model.gz). Finally, CRF++ must be installed, and its path must also be given. For example:
 ```
-java -Xmx2G -jar ./target/CINEX-<version>.jar -u https://en.m.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart -p P40 -c Q5 -m ./crf_models --crf /home/paramita/Projects/counting_quantifier/tools/CRF++-0.58/
+java -Xmx2G -jar ./target/CINEX-<version>.jar 
+	-u https://en.wikipedia.org/wiki/Robin_Williams 
+	-p P26 -c Q5 -m ./crf_models 
+	--crf /home/paramita/Projects/counting_quantifier/tools/CRF++-0.58/
 ```
 which gives as a result:
 ```
-The predicted counting quantifier of child of Wolfgang_Amadeus_Mozart (class: human) is: 6
-	confidence score: 0.251246
-	evidence (type: cardinal): The couple were finally married on 4 August 1782 in St. Stephen 's Cathedral , the day before his father 's consent arrived in the mail.The couple had [six] children , of whom only two survived infancy :
+The predicted counting quantifier of spouse of Robin_Williams (class: human) is: 3
+	confidence score: 0.116744
+	evidence (type: ordinal): Williams married his [third] wife , graphic designer Susan Schneider , 
+				  on October 22 , 2011 , in St. Helena , California .
 ```
 *) Please find the list of available models in [`resources/CRF_models.tsv`](resources/CRF_models.tsv), all model files can be downloaded from [here](http://people.mpi-inf.mpg.de/~paramita/cinex_crf_models/).
 
